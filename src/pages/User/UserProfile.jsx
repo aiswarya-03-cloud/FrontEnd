@@ -123,10 +123,10 @@ const UserProfile = () => {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("userToken"); // Clear user session
-    navigate("/login"); // Redirect to login/homepage
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("userToken"); // Clear user session
+  //   navigate("/login"); // Redirect to login/homepage
+  // };
 
   const handleUpdateProfile = () => {
     navigate("/update-profile"); // Redirect to Update Profile page

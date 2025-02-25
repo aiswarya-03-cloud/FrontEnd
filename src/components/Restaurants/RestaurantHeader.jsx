@@ -346,13 +346,15 @@
 
 //--------------------------------------------------------------------------------------------------------------
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { AppBar, Toolbar, IconButton, Avatar, Badge, Menu, MenuItem, Drawer, List, ListItem, ListItemText, Box, Switch } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // ✅ Import Axios for API calls
+// import {useContext} from 'react';
+// import {StoreContext} from '../../Context/StoreContext';
 
 const RestaurantHeader = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -360,6 +362,8 @@ const RestaurantHeader = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [cartCount, setCartCount] = useState(0); // ✅ Store cart item count
   const navigate = useNavigate();
+
+//   const {getTotalCartAmount, token, setToken} = useContext(StoreContext);
 
   // Fetch cart count when component loads
   useEffect(() => {
@@ -380,10 +384,25 @@ const RestaurantHeader = () => {
   // Profile menu handlers
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
+
+
   const handleLogout = () => {
     console.log("Logging out...");
+    // const {setToken} = useContext(StoreContext);
+    // setToken(null);
+    // localStorage.removeItem("token");
     handleMenuClose();
     navigate("/"); // Redirect using navigate
+
+    // If using cookies, call API to clear token
+    // axios.get("http://localhost:3000/api/v1/user/logout", { withCredentials: true })
+    //     .then(() => {
+    //         console.log("User logged out successfully");
+    //         navigate("/"); // Redirect user to home page
+    //     })
+    //     .catch((error) => {
+    //         console.error("Logout Error:", error);
+    //     });
   };
 
   const handleUpdateProfile = () => {

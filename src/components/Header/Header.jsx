@@ -13,7 +13,7 @@ import ContactUs from '../../pages/ContactUs/ContactUs';
 import Feedback from '../../pages/Feedback/Feedback';
 import ViewMenu from '../../pages/ViewMenu/ViewMenu';
 import Home from '../../pages/Home/Home';
-import Navbar from '../Navbar/Navbar';
+import Navbar from '../Navbar_1/Navbar';
 
 
 

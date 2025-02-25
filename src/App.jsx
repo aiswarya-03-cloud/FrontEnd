@@ -124,9 +124,23 @@ import UpdateProfileCard from './pages/User/UpdateProfileCard';
 //import addToCart from './pages/Cart/addToCart';
 import CartPage from './components/Cart/CartPage';
 import RestaurantHeader from './components/Restaurants/RestaurantHeader'
+import PaymentCancel from './pages/Payment/PaymentCancel';
+import PaymentSuccess from './pages/Payment/PaymentSuccess';
+// import AdminLogin from './components/Admin/AdminLogin';
+// import AdminDashboard from './components/Admin/AdminDashboard';
+// //import AdminSignup from './components/Admin/AdminSignUp';
+import AdminSignIn from './components/Admin/AdminLogin';
+
+import Add from './pages/Admin/Add'
+import List from './pages/Admin/List'
+import Orders from './pages/Admin/Orders'
+
 
 export default function App() {
   const [showLogin, setShowLogin] = useState(false);
+
+  const url = "http://localhost:3000"
+  
 
   return (
     <>
@@ -154,7 +168,20 @@ export default function App() {
           <Route path="menuItem/all-items/:restaurantId" element={<RestaurantMenuItems />} />
           {/* <Route path="cart" element={<RestaurantHeader />} /> */}
           <Route path="cart" element={<CartPage />} />
-          
+          <Route path="user/payment/success" element={<PaymentSuccess />} />
+          <Route path="user/payment/cancel" element={<PaymentCancel />} />
+          <Route path="admin/login" element={<AdminLayout />} />
+          {/* /* <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
+           {/* <Route path="/admin/signup" element={<AdminSignup />} /> */ }
+           <Route path="/admin/login" element={<AdminSignIn />} />
+           
+
+        <Route path='/add' element={<Add url={url}/>} />
+        <Route path='/list' element={<List url={url}/>} />
+        <Route path='/orders' element={<Orders url={url}/>} />
+
+
         </Route>
       </Routes>
     </>

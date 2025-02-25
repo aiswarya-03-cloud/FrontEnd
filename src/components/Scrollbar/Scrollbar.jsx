@@ -93,7 +93,7 @@ const menuItems = [
   "https://source.unsplash.com/200x200/?icecream",
 ];
 
-const MenuScroller = () => {
+const MenuScroller = ({category, setCategory}) => {
   const scrollRef = useRef(null);
 
   const scroll = (direction) => {
@@ -141,7 +141,10 @@ const MenuScroller = () => {
           <CardMedia
             key={index}
             component="img"
-            image={image}
+            // onClick={()=>setCategory(prev=>prev==image?"All": "")}
+           image={image}
+           
+           
             alt={`Menu item ${index + 1}`}
             sx={{
               width: "150px", // Adjusted size for circular images

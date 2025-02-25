@@ -25,9 +25,9 @@ const Footer = () => {
 
 
     <p>
-      ACME Industries Ltd.
+      Sizzle Bytes
       <br />
-      Providing reliable tech since 1992
+      Serving delicious moments, every time.
     </p>
   </aside>
   <nav>

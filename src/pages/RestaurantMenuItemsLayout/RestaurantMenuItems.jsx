@@ -8,6 +8,7 @@ import {axiosInstance} from '../../config/axiosinstance'
 //import toast from 'react-hot-toast'
 //import {addToCart} from './pages/Cart/addToCart'
 
+
 const RestaurantMenuItems = () => {
 
   const params = useParams();
@@ -66,6 +67,8 @@ const RestaurantMenuItems = () => {
       {/* <h1>RESTAURANT MENULIST</h1> */}
       
       <RestaurantHeader />
+
+   
 
       {/* <RestaurantCard /> */}
 

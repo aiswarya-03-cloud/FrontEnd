@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import Navbar from '../../components/Navbar/Navbar';
+import Navbar from '../../components/Navbar_1/Navbar';
 import { UserHeader } from '../../components/User/UserHeader';
 
 

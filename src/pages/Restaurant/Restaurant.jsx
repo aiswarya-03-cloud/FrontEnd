@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
-import Navbar from '../../components/Navbar/Navbar'
+import Navbar from '../../components/Navbar_1/Navbar.jsx'
 import RestaurantHeader from '../../components/Restaurants/RestaurantHeader'
 import MenuScroller from '../../components/Scrollbar/Scrollbar'
 import './Restaurant.css'

@@ -217,7 +217,7 @@ const ViewMenu = () => {
               <Typography variant="h6" sx={{ fontWeight: "bold", color: "#2E7D32", mt: 1 }}>
                 {food.price}
               </Typography>
-              <Button
+              {/* <Button
                 sx={{
                   mt: 2,
                   backgroundColor: "#9370DB",
@@ -229,7 +229,7 @@ const ViewMenu = () => {
                 }}
               >
                 Add to Cart
-              </Button>
+              </Button> */}
             </CardContent>
           </Card>
         ))}

@@ -335,199 +335,210 @@
 
 ////99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
 
-// import React from "react";
-// import { Card, CardContent, CardMedia, Typography, Button, Box } from "@mui/material";
-// import { useNavigate } from "react-router-dom";
-// import { useParams } from "react-router-dom";
-// //import toast from "react-hot-toast";
-// import toast, { Toaster } from 'react-hot-toast';
-// import {axiosInstance} from "../../config/axiosinstance"; // Ensure axios instance is correctly imported
+import React from "react";
+import { Card, CardContent, CardMedia, Typography, Button, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+//import toast from "react-hot-toast";
+import toast, { Toaster } from 'react-hot-toast';
+import {axiosInstance} from "../../config/axiosinstance"; // Ensure axios instance is correctly imported
 
-// // export const addToCart = async () => {
-//     const RestoMenu = ({menuItem}) =>{
+
+// export const addToCart = async () => {
+    const RestoMenu = ({menuItem}) =>{
         
-//     const navigate = useNavigate();
+    const navigate = useNavigate();
 
    
-//         const params = useParams();
-//         const {restaurantId} = params;
-//         console.log("restId....>",restaurantId)
+        const params = useParams();
+        const {restaurantId} = params;
+        console.log("restId....>",restaurantId)
+        console.log("MenuItem....>",menuItem)
+        const menuItemId = menuItem._id
+        console.log("MenuItemID---",menuItemId)
+
+        
+
+ const addToCart = async () =>{
+
+    console.log('Hi---lll')
+
+    let quantity = 1;
+
+  try {
+    const response = await axiosInstance({
+      url: "/cart/add",
+      method: "POST",
+      data:{restaurantId,menuItemId,quantity}
+    });
+
+    // fetchCartCount();
+
+    console.log("response===++", response);
+    toast.success("Added to cart");
+  } catch (error) {
+    // console.log("Error adding item to cart:", error?.response?.data?.message)
+     console.log(error);
+    toast.error("Failed to add to Cart");
+  }
+};
+
+const notify =() => toast('Added to Cart')
+const handleAddtoCartClick = () =>{
     
+    navigate('/cart');
+}
 
-
-//  const addToCart = async () =>{
-
-//     console.log('Hi---lll')
-
-//   try {
-//     const response = await axiosInstance({
-//       url: "/cart/update",
-//       method: "POST",
-//       data:{restaurantId}
-//     });
-
-//     fetchCartCount();
-
-//     console.log("response===++", response);
-//     toast.success("Added to cart");
-//   } catch (error) {
-//     console.log("Error adding item to cart:", error?.response?.data?.message)
-//     // console.log(error);
-//     toast.error("Failed to add to Cart");
-//   }
-// };
-
-// const notify =() => toast('Added to Cart')
-// const handleAddtoCartClick = () =>{
-//     navigate('/cart');
-// }
-
-
-//   return (
-//     <Box sx={{ display: "flex", justifyContent: "center", padding: "20px" }}>
-//       <Card
-//         sx={{
-//           maxWidth: 400,
-//           borderRadius: "12px",
-//           boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-//           textAlign: "center",
-//         }}
-//       >
-//         <CardMedia
-//           component="img"
-//           height="200"
-//           image={menuItem.image}
-//           alt={menuItem.name}
-//           sx={{ borderTopLeftRadius: "12px", borderTopRightRadius: "12px" }}
-//         />
-//         <CardContent sx={{ backgroundColor: "#F3E5F5" }}>
-//           <Typography variant="h5" sx={{ fontWeight: "bold", color: "#4A148C" }}>
-//             {menuItem.name}
-//           </Typography>
-//           <Typography variant="body2" sx={{ color: "#6A1B9A", mt: 1 }}>
-//             {menuItem.description}
-//           </Typography>
-//           <Typography variant="h6" sx={{ color: "#7E57C2", mt: 1, fontWeight: "bold" }}>
-//             ₹ {menuItem.price}
-//           </Typography>
-//           <Typography variant="subtitle2" sx={{ fontStyle: "italic", color: "#7E57C2", mt: 1 }}>
-//             🍽️ {menuItem.restaurantName}
-//           </Typography>
-//           <Button
-//             onClick={notify}
-//             // onClick={handleAddtoCartClick}
-//             sx={{
-//               mt: 2,
-//               backgroundColor: "#9370DB",
-//               color: "white",
-//               fontWeight: "bold",
-//               "&:hover": { backgroundColor: "#7A5DBE" },
-//             }}
-//           >
-//             Add to Cart
-//           </Button>
-//           <Toaster />
-//         </CardContent>
-//       </Card>
-//     </Box>
-//   );
-
-// }
-// export default RestoMenu;
-
-
-import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardMedia, Typography, Button, Box } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
-import { axiosInstance } from "../../config/axiosinstance";
-
-const RestoMenu = ({ menuItem, fetchCartCount }) => {
-  const navigate = useNavigate();
-  const { restaurantId } = useParams();
-
-  // State for item quantity
-  const [quantity, setQuantity] = useState(0);
-
-  // Fetch initial quantity from the cart
-  useEffect(() => {
-    fetchCartItem();
-  }, []);
-
-  const fetchCartItem = async () => {
-    try {
-      const response = await axiosInstance.get("/cart");
-      const cartItems = response.data?.cart?.cartItems || [];
-      const itemInCart = cartItems.find(item => item.menuItemId === menuItem._id);
-      setQuantity(itemInCart ? itemInCart.quantity : 0);
-    } catch (error) {
-      console.error("Error fetching cart item:", error);
-    }
-  };
-
-  // Add or update cart item
-  const updateCart = async (newQuantity) => {
-    try {
-      await axiosInstance.post("/cart/update", {
-        restaurantId,
-        menuItems: [{ menuItemId: menuItem._id, quantity: newQuantity, price: menuItem.price }],
-      });
-
-      setQuantity(newQuantity);
-      fetchCartCount(); // Update cart count in header
-      toast.success(newQuantity > 0 ? "Cart updated" : "Removed from cart");
-    } catch (error) {
-      console.error("Error updating cart:", error);
-      console.log("error--",error)
-      toast.error("Failed to update cart");
-    }
-  };
-
-  // Increase quantity
-  const handleIncrease = () => updateCart(quantity + 1);
-
-  // Decrease quantity (remove if 1)
-  const handleDecrease = () => {
-    if (quantity > 1) {
-      updateCart(quantity - 1);
-    } else {
-      updateCart(0);
-    }
-  };
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center", padding: "20px" }}>
-      <Card sx={{ maxWidth: 400, borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.2)", textAlign: "center" }}>
+      <Card
+        sx={{
+          maxWidth: 400,
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+          textAlign: "center",
+        }}
+      >
         <CardMedia
           component="img"
           height="200"
-          image={menuItem.image} 
+          image={menuItem.image}
           alt={menuItem.name}
           sx={{ borderTopLeftRadius: "12px", borderTopRightRadius: "12px" }}
         />
         <CardContent sx={{ backgroundColor: "#F3E5F5" }}>
-          <Typography variant="h5" sx={{ fontWeight: "bold", color: "#4A148C" }}>{menuItem.name}</Typography>
-          <Typography variant="body2" sx={{ color: "#6A1B9A", mt: 1 }}>{menuItem.description}</Typography>
-          <Typography variant="h6" sx={{ color: "#7E57C2", mt: 1, fontWeight: "bold" }}>₹ {menuItem.price}</Typography>
-          <Typography variant="subtitle2" sx={{ fontStyle: "italic", color: "#7E57C2", mt: 1 }}>🍽️ {menuItem.restaurantName}</Typography>
-
-          {quantity > 0 ? (
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mt: 2 }}>
-              <Button onClick={handleDecrease} sx={{ backgroundColor: "#9370DB", color: "white", "&:hover": { backgroundColor: "#7A5DBE" } }}>-</Button>
-              <Typography sx={{ mx: 2 }}>{quantity}</Typography>
-              <Button onClick={handleIncrease} sx={{ backgroundColor: "#9370DB", color: "white", "&:hover": { backgroundColor: "#7A5DBE" } }}>+</Button>
-            </Box>
-          ) : (
-            <Button onClick={handleIncrease} sx={{ mt: 2, backgroundColor: "#9370DB", color: "white", fontWeight: "bold", "&:hover": { backgroundColor: "#7A5DBE" } }}>
-              Add to Cart
-            </Button>
-          )}
-          
+          <Typography variant="h5" sx={{ fontWeight: "bold", color: "#4A148C" }}>
+            {menuItem.name}
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#6A1B9A", mt: 1 }}>
+            {menuItem.description}
+          </Typography>
+          <Typography variant="h6" sx={{ color: "#7E57C2", mt: 1, fontWeight: "bold" }}>
+            ₹ {menuItem.price}
+          </Typography>
+          <Typography variant="subtitle2" sx={{ fontStyle: "italic", color: "#7E57C2", mt: 1 }}>
+            🍽️ {menuItem.restaurantName}
+          </Typography>
+          <Button
+            //onClick={notify}
+            onClick={addToCart}
+            sx={{
+              mt: 2,
+              backgroundColor: "#9370DB",
+              color: "white",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#7A5DBE" },
+            }}
+          >
+            Add to Cart
+          </Button>
           <Toaster />
         </CardContent>
       </Card>
     </Box>
   );
-};
 
+}
 export default RestoMenu;
+
+
+// import React, { useState, useEffect,useContext } from "react";
+// import { Card, CardContent, CardMedia, Typography, Button, Box } from "@mui/material";
+// import { useNavigate, useParams } from "react-router-dom";
+// import toast, { Toaster } from "react-hot-toast";
+// import { axiosInstance } from "../../config/axiosinstance";
+// //import {StoreContext} from '../../components/Context/StoreContext'
+
+// const RestoMenu = ({ menuItem, fetchCartCount=()=>{} }) => {
+
+//     // const {cartItems,addToCart,removeFromCart} = useContext(StoreContext);
+
+//   const navigate = useNavigate();
+//   const { restaurantId } = useParams();
+
+//   // State for item quantity
+//   const [quantity, setQuantity] = useState(0);
+
+//   // Fetch initial quantity from the cart
+//   useEffect(() => {
+//     fetchCartItem();
+//   }, []);
+
+//   const fetchCartItem = async () => {
+//     try {
+//       const response = await axiosInstance.get("/cart");
+//       const cartItems = response.data?.cart?.cartItems || [];
+//       const itemInCart = cartItems.find(item => item.menuItemId === menuItem._id);
+//       setQuantity(itemInCart ? itemInCart.quantity : 0);
+//     } catch (error) {
+//       console.error("Error fetching cart item:", error);
+//     }
+//   };
+
+//   // Add or update cart item
+//   const updateCart = async (newQuantity) => {
+//     try {
+//       await axiosInstance.post("/cart/update", {
+//         restaurantId,
+//         menuItems: [{ menuItemId: menuItem._id, quantity: newQuantity, price: menuItem.price }],
+//       });
+
+//       setQuantity(newQuantity);
+//       fetchCartCount(); // Update cart count in header
+//       toast.success(newQuantity > 0 ? "Cart updated" : "Removed from cart");
+//     } catch (error) {
+//       console.error("Error updating cart:", error);
+//       console.log("error--",error)
+//       toast.error("Failed to update cart");
+//     }
+//   };
+
+//   // Increase quantity
+//   const handleIncrease = () => updateCart(quantity + 1);
+
+//   // Decrease quantity (remove if 1)
+//   const handleDecrease = () => {
+//     if (quantity > 1) {
+//       updateCart(quantity - 1);
+//     } else {
+//       updateCart(0);
+//     }
+//   };
+
+//   return (
+//     <Box sx={{ display: "flex", justifyContent: "center", padding: "20px" }}>
+//       <Card sx={{ maxWidth: 400, borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.2)", textAlign: "center" }}>
+//         <CardMedia
+//           component="img"
+//           height="200"
+//           image={menuItem.image} 
+//           alt={menuItem.name}
+//           sx={{ borderTopLeftRadius: "12px", borderTopRightRadius: "12px" }}
+//         />
+//         <CardContent sx={{ backgroundColor: "#F3E5F5" }}>
+//           <Typography variant="h5" sx={{ fontWeight: "bold", color: "#4A148C" }}>{menuItem.name}</Typography>
+//           <Typography variant="body2" sx={{ color: "#6A1B9A", mt: 1 }}>{menuItem.description}</Typography>
+//           <Typography variant="h6" sx={{ color: "#7E57C2", mt: 1, fontWeight: "bold" }}>₹ {menuItem.price}</Typography>
+//           <Typography variant="subtitle2" sx={{ fontStyle: "italic", color: "#7E57C2", mt: 1 }}>🍽️ {menuItem.restaurantName}</Typography>
+
+//           {quantity > 0 ? (
+//             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mt: 2 }}>
+//               <Button onClick={handleDecrease} sx={{ backgroundColor: "#9370DB", color: "white", "&:hover": { backgroundColor: "#7A5DBE" } }}>-</Button>
+//               <Typography sx={{ mx: 2 }}>{quantity}</Typography>
+//               <Button onClick={handleIncrease} sx={{ backgroundColor: "#9370DB", color: "white", "&:hover": { backgroundColor: "#7A5DBE" } }}>+</Button>
+//             </Box>
+//           ) : (
+//             <Button onClick={handleIncrease} sx={{ mt: 2, backgroundColor: "#9370DB", color: "white", fontWeight: "bold", "&:hover": { backgroundColor: "#7A5DBE" } }}>
+//               Add to Cart
+//             </Button>
+//           )}
+          
+//           <Toaster />
+//         </CardContent>
+//       </Card>
+//     </Box>
+//   );
+// };
+
+// export default RestoMenu;
